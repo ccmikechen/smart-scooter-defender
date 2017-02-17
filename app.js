@@ -1,3 +1,4 @@
+var converter = require('hex2dec');
 var linebot = require('linebot');
 var express = require('express');
 var app = express();
@@ -13,7 +14,11 @@ var bot = linebot({
 });
 
 app.get('/sigfox', function(req, res) {
-	temp = req.query.data;
+	var data = req.query.data;
+	var pressure_int = converter.hexToDec('0x' + data.substr(8, 8));
+	var pressure_point = converter.hexToDec('0x' + data.substr(16, 8));
+	var pressure = pressure_int + '.' + pressure_point;
+	bot.push(myuserid, "Pressure: " + pressure);
 	res.end();
 });
 

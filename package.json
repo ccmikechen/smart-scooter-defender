@@ -1,6 +1,7 @@
 {
     "dependencies": {
         "express" : "~> 4.14.1",
-        "linebot" : "~> 1.2.1" 
+        "linebot" : "~> 1.2.1",
+		"hex2dec" : "~> 1.0.1"
     }
 }
