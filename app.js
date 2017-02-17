@@ -9,15 +9,13 @@ var bot = linebot({
 });
 
 app.get('/', function (req, res) {
+	
     res.send('Hello World!');
 });
 
 bot.on('message', function (event) {
-    event.reply(event.message.text).then(function (data) {
-        // success 
-    }).catch(function (error) {
-        // error 
-    });
+	var userId = event.source.userId;
+    bot.push(userId, userId);
 });
 
 const linebotParser = bot.parser();
