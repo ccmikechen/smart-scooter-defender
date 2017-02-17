@@ -4,6 +4,8 @@ var app = express();
 
 var myuserid = "U362136ce7ef87de62bae7b85de8b5d7f";
 
+var temp = "";
+
 var bot = linebot({
     channelId: "1483029082",
     channelSecret: "ada6218baf7780aea777e87de0b5c093",
@@ -11,7 +13,7 @@ var bot = linebot({
 });
 
 app.get('/sigfox', function(req, res) {
-	bot.push(myuserid, req.query.data);
+	temp = req.query.data;
 	res.end();
 });
 
@@ -21,7 +23,7 @@ app.get('/', function (req, res) {
 
 bot.on('message', function (event) {
 	var userId = event.source.userId;
-    bot.push(userId, userId);
+    bot.push(userId, temp);
 });
 
 const linebotParser = bot.parser();
