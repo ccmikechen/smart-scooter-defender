@@ -58,8 +58,10 @@ bot.on('message', function (event) {
 bot.on('beacon', function (event) {
 	if (event.beacon.type == 'enter') {
 		isNearby = true;
+		bot.push(userId, "車輛已解鎖!");
 	} else if (event.beacon.type == 'leave') {
 		isNearby = false;
+		bot.push(userId, "車輛已上鎖!");
 	}
 });
 
