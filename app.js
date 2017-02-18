@@ -37,20 +37,42 @@ app.get('/sigfox', function(req, res) {
 			break;
 		case "02":
 			if (isNearby) {
-				bot.push(mygroupid, name + "在騎車時摔倒了!")
+				bot.push(mygroupid, [
+					{
+						type: 'sticker',
+						packageId: 3,
+						stickerId: 1
+					}, {
+						type: 'text', 
+						text: name + "在騎車時摔倒了!"
+					}])
 			} else {
-				bot.push(myuserid, "你的車倒了!");
+				bot.push(myuserid, [
+					{
+						type: 'sticker',
+						packageId: 135,
+						stickerId: 1
+					}, {
+						type: 'text', 
+						text: "你的車翻倒了!"
+					}]);
 			}
 			break;
 		case "03":
 			bot.push(myuserid, [
 					{
-						type: 'text', 
-						text: name + "疑似發生車禍了!"
+						type: 'sticker',
+						packageId: 612,
+						stickerId: 4
 					}, {
-						type: 'image',
-						originalContentUrl: 'https://misgo.azurewebsites.net/images/emergency.jpg',
-						previewImageUrl: 'https://misgo.azurewebsites.net/images/emergency.jpg'
+						type: 'text', 
+						text: name + "發生車禍了!"
+					}, {
+						type: 'location',
+						title: '事發地點',
+						address: '點我查看地圖',
+						latitude: lat,
+						longitude: lng
 					}]);
 			break;
 		case "04":
@@ -60,11 +82,11 @@ app.get('/sigfox', function(req, res) {
 				bot.push(myuserid, [
 					{
 						type: 'sticker',
-						packageId: 430,
+						packageId: 113,
 						stickerId: 1
 					}, { 
 						type: 'text', 
-						text: "你的車正在移動!"
+						text: "你的車正在移動!趕快去看看!"
 					}
 				]);
 				bot.push(myuserid, {
@@ -93,10 +115,6 @@ app.get('/sigfox', function(req, res) {
 	res.end();
 });
 
-app.get('/', function (req, res) {
-    res.send('Hello World!');
-});
-
 bot.on('message', function (event) {
     switch (event.message.type) {
         case 'text':
@@ -104,7 +122,7 @@ bot.on('message', function (event) {
 				case 'init':
 					switch (event.message.text) {
 						case 'register':
-							event.reply('請輸入硬體編號：');
+							event.reply('請輸入裝置編號：');
 							type = 'enterSTM32_ID';
 							break;
 						case 'lock':
@@ -141,7 +159,7 @@ bot.on('message', function (event) {
 						altText: '請用手機確認內容',
 						template: {
 							type: 'confirm',
-							text: '編號：' + STM32_ID + '\r\n車牌：' + motorcycle + '\r\n請問資料是否正確？',
+							text: '編號：' + STM32_ID + '\r\n車牌：' + motorcycle + '\r\n資料是否正確？',
 							actions: [{
 								type: 'postback',
 								label: 'Yes',
