@@ -37,6 +37,8 @@ app.get('/sigfox', function(req, res) {
 			break;
 		case "02":
 			if (isNearby) {
+				bot.push(mygroupid, name + "在騎車時摔倒了!");
+				/*
 				bot.push(mygroupid, [
 					{
 						type: 'sticker',
@@ -46,7 +48,10 @@ app.get('/sigfox', function(req, res) {
 						type: 'text', 
 						text: name + "在騎車時摔倒了!"
 					}]);
+					*/
 			} else {
+				bot.push("你的車翻倒了!");
+				/*
 				bot.push(myuserid, [
 					{
 						type: 'sticker',
@@ -56,6 +61,7 @@ app.get('/sigfox', function(req, res) {
 						type: 'text', 
 						text: "你的車翻倒了!"
 					}]);
+					*/
 			}
 			break;
 		case "03":
