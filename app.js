@@ -24,7 +24,7 @@ var bot = linebot({
 
 app.get('/sigfox', function(req, res) {
 	var data = req.query.data;
-	var name = bot.getUserProfile(myuserid) | 'Mike';
+	var name = bot.getUserProfile(myuserid).displayName | 'Mike';
 	switch (data) {
 		case "01":
 			break;
