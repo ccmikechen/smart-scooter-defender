@@ -32,12 +32,17 @@ app.use(express.static('www'));
 app.get('/sigfox', function(req, res) {
 	var data = req.query.data;
 	var name = '陳銘嘉';
-	bot.push(myuserid, data);
+	//bot.push(myuserid, data);
 	switch (data) {
 		case "01":
 			break;
 		case "02":
 			if (isNearby) {
+				bot.push(mygroupid, {
+						type: 'sticker',
+						packageId: 3,
+						stickerId: 1
+				});
 				bot.push(mygroupid, name + "在騎車時摔倒了!");
 				/*
 				bot.push(mygroupid, [
@@ -51,6 +56,11 @@ app.get('/sigfox', function(req, res) {
 					}]);
 					*/
 			} else {
+				bot.push(myuserid, {
+						type: 'sticker',
+						packageId: 135,
+						stickerId: 1
+				});
 				bot.push(myuserid, "你的車翻倒了!");
 				/*
 				bot.push(myuserid, [
