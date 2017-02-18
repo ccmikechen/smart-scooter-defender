@@ -13,13 +13,15 @@
 		<source src="sounds/unlock.mp3" type="audio/mp3">
 	</audio>
 	<button onclick="playAlarm()">alarm</button>
+	<button onclick="stopAlarm()">stop alarm</button>
 	<button onclick="playUnlock()">unlock</button>
 <script>
 	function playAlarm() {
 		document.getElementById('alarm').play();
+		document.getElementById('alarm').loop = true;
 	}
 	function stopAlarm() {
-		document.getElementById('alarm').stop();
+		document.getElementById('alarm').pause();
 	}
 	function playUnlock() {
 		document.getElementById('unlock').play();
@@ -39,6 +41,8 @@
 	socket.on('play:unlock', function() {
 		playUnlock();
 	});
+	document.getElementById('alarm').load();
+	document.getElementById('unlock').load();
 </script>
 </body>
 </html>
