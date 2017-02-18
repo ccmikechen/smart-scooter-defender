@@ -18,6 +18,7 @@ var motorcycle = "";
 var carNumber = 'mis-666';
 var lat = 25.040302, lng = 121.5387707;
 
+var unlockMode = 'manual';
 var isNearby = false;
 
 var bot = linebot({
@@ -152,6 +153,12 @@ bot.on('message', function (event) {
 								longitude: lng
 							});
 							break;
+						case 'manual-mode':
+							unlockMode = 'manual';
+							break;
+						case 'auto-mode':
+							unlockMode = 'auto';
+							break;
 					}
 					break;
 				case 'enterSTM32_ID':
@@ -206,6 +213,9 @@ bot.on('postback', function(event) {
 
 
 bot.on('beacon', function (event) {
+	if (unlockMode == 'manual') {
+		return;
+	}
 	if (event.source.userId != myuserid) {
 		return;
 	}
