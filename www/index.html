@@ -7,15 +7,18 @@
 
 <body>
 	<div> Test </div>
-	<img src="images/emergency.jpg"></img>
 	<audio id="alarm" preload="auto">
 		<source src="sounds/alarm.wav" type="audio/wav">
+	</audio>
+	<audio id="lock" preload="auto">
+		<source src="sounds/lock.mp3" type="audio/mp3">
 	</audio>
 	<audio id="unlock" preload="auto">
 		<source src="sounds/unlock.mp3" type="audio/mp3">
 	</audio>
 	<button onclick="playAlarm()">alarm</button>
 	<button onclick="stopAlarm()">stop alarm</button>
+	<button onclick="playLock()">lock</button>
 	<button onclick="playUnlock()">unlock</button>
 <script>
 	function playAlarm() {
@@ -24,6 +27,9 @@
 	}
 	function stopAlarm() {
 		document.getElementById('alarm').pause();
+	}
+	function playLock() {
+		document.getElementById('lock').play();
 	}
 	function playUnlock() {
 		document.getElementById('unlock').play();
@@ -38,13 +44,11 @@
 		stopAlarm();
 	});
 	socket.on('play:lock', function() {
-		playUnlock();
+		playLock();
 	});
 	socket.on('play:unlock', function() {
 		playUnlock();
 	});
-	document.getElementById('alarm').load();
-	document.getElementById('unlock').load();
 </script>
 </body>
 </html>
