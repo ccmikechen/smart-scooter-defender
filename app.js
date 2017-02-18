@@ -15,6 +15,7 @@ var type = 'init';
 var STM32_ID = "";
 var motorcycle = "";
 
+var carNumber = 'mis-666';
 var lat = 25.040302, lng = 121.5387707;
 
 var isNearby = false;
@@ -42,37 +43,23 @@ app.get('/sigfox', function(req, res) {
 						type: 'sticker',
 						packageId: 1,
 						stickerId: 3
+				}, {
+					type: 'text',
+					text: name + "在騎車時摔倒了!"
+				}, {
+						type: 'location',
+						title: '事發地點',
+						address: '點我查看地圖',
+						latitude: lat,
+						longitude: lng
 				});
-				bot.push(mygroupid, name + "在騎車時摔倒了!");
-				/*
-				bot.push(mygroupid, [
-					{
-						type: 'sticker',
-						packageId: 3,
-						stickerId: 1
-					}, {
-						type: 'text', 
-						text: name + "在騎車時摔倒了!"
-					}]);
-					*/
 			} else {
 				bot.push(myuserid, {
 						type: 'sticker',
 						packageId: 1,
 						stickerId: 135
 				});
-				bot.push(myuserid, "你的車翻倒了!");
-				/*
-				bot.push(myuserid, [
-					{
-						type: 'sticker',
-						packageId: 135,
-						stickerId: 1
-					}, {
-						type: 'text', 
-						text: "你的車翻倒了!"
-					}]);
-					*/
+				bot.push(myuserid, "你的車(" + carNumber + ")翻倒了!");
 			}
 			break;
 		case "03":
@@ -103,7 +90,7 @@ app.get('/sigfox', function(req, res) {
 						stickerId: 113
 					}, { 
 						type: 'text', 
-						text: "你的車正在移動!趕快去看看!"
+						text: "你的車(" + carNumber + ")正在移動!趕快去看看!"
 					}
 				]);
 				bot.push(myuserid, {
