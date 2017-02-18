@@ -6,13 +6,14 @@ var linebot = require('linebot');
 var express = require('express');
 var app = express();
 
-var friendA = "U0fe240746f7d46507e27288544317997";
-var friendB = "Ua19de6cd0a498bb8013e037914ab5ae4";
-var friendC = "Ua4df45e4a80fb8b9a2bdcb5383408acc";
 var myuserid = "U362136ce7ef87de62bae7b85de8b5d7f";
 var mygroupid = "C4d91d7abc6676f42ef922d2cf1378f7a";
 
-var friends = [friendA, friendB, friendC];
+var type = 'init';
+var STM32_ID = "";
+var motorcycle = "";
+
+var lat = 0, lng = 0;
 
 var isNearby = false;
 
@@ -32,7 +33,7 @@ app.get('/sigfox', function(req, res) {
 			if (isNearby) {
 				bot.push(mygroupid, name + "在騎車時摔倒了!")
 			} else {
-				bot.push(mygroupid, name + "的車倒了!");
+				bot.push(myuserid, "你的車倒了!");
 			}
 			break;
 		case "03":
@@ -40,11 +41,12 @@ app.get('/sigfox', function(req, res) {
 			break;
 		case "04":
 			if (!isNearby) {
-				bot.push(mygroupid, name + "的車正在移動!")
+				bot.push(myuserid, "你的車正在移動!")
 			}
 			break;
 	}
-
+	lat = req.query.lat;
+	lng = req.query.lng;
 	
 	res.end();
 });
@@ -54,10 +56,74 @@ app.get('/', function (req, res) {
 });
 
 bot.on('message', function (event) {
-	var userId = event.source.userId;
-    bot.push(userId, userId);
+    switch (event.message.type) {
+        case 'text':
+			switch (type) {
+				case 'init':
+					switch (event.message.text) {
+						case 'register':
+							event.reply('請輸入硬體編號：');
+							type = 'enterSTM32_ID';
+							break;
+						case 'lock':
+							isNearby = true;
+							break;
+						case 'unlock':
+							isNearby = false;
+							break;
+						case 'find':
+							event.reply({
+								type: 'location',
+								title: '點我查看地圖',
+								address: '尋車結果',
+								latitude: lat,
+								longitude: lng
+							});
+							break;
+					}
+					break;
+				case 'enterSTM32_ID':
+					STM32_ID = event.message.text;
+					type = 'enterPlateNumber';
+					event.reply('請輸入車牌號碼：');
+					break;
+				case 'enterCarNumber':
+					motorcycle = event.message.text;
+					type = 'confirmRegisterInfo';
+					event.reply({
+						type: 'template',
+						altText: '請用手機確認內容',
+						template: {
+							type: 'confirm',
+							text: '編號：' + STM32_ID + '\r\n車牌：' + motorcycle + '\r\n請問資料是否正確？',
+							actions: [{
+								type: 'postback',
+								label: 'Yes',
+								data: 'regist_yes'
+							}, {
+								type: 'postback',
+								label: 'No',
+								data: 'regist_no'
+							}]
+						}
+					});
+					break;
+			}
+    }
 });
 
+bot.on('postback', function(event) {
+    if (type == 'confirmRegisterInfo') {
+        if (event.postback.data == "regist_yes") {
+            db.insertBinding(event.source.userId,STM32_ID,motorcycle);
+        }
+        STM32_ID = "";
+        motorcycle = "";
+        type = 'init';
+    }
+});
+
+/*
 bot.on('beacon', function (event) {
 	if (event.beacon.type == 'enter') {
 		isNearby = true;
@@ -67,6 +133,7 @@ bot.on('beacon', function (event) {
 		bot.push(myuserid, "車輛已上鎖!");
 	}
 });
+*/
 
 bot.on('leave', function(event) {
 	bot.push(myuserid, event.source.groupId);
