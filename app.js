@@ -23,6 +23,8 @@ var bot = linebot({
     channelAccessToken: "HgmqnvzXuSTtXjB/3yiI0TRFOD2JWImFRFhHavnhGvBLfTeDzBdEREYYWb+oT8zsTfxIBvP4JHHT8kQP853zcJ870pGvKDyKc+zi4cd3ebkitUY8xUa9dkFpIjDjvdNXO5AfquvILjUZ2FLxSluXrwdB04t89/1O/w1cDnyilFU="
 });
 
+app.use(express.static('www'));
+
 app.get('/sigfox', function(req, res) {
 	var data = req.query.data;
 	var name = '陳銘嘉';
