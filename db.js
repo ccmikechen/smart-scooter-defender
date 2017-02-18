@@ -13,7 +13,6 @@ module.exports = {
 	connectionTest: function() {
 		mongoClient.connect(serverToken, function(err, db) {
 			if (err) throw err;
-			console.log(db);
 			db.close();
 		});
 	},

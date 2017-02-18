@@ -40,12 +40,13 @@ app.get('/sigfox', function(req, res) {
 			break;
 		case "02":
 			if (isNearby) {
-				bot.push(mygroupid, [{
+				bot.push(mygroupid, [
+				{
 					type: 'sticker',
 					packageId: 1,
 					stickerId: 3
 				}, {
-					type: 'text',
+					type: 'text', 
 					text: name + "在騎車時摔倒了!"
 				}, {
 					type: 'location',
@@ -160,6 +161,23 @@ bot.on('message', function (event) {
 								latitude: lat,
 								longitude: lng
 							});
+							bot.push(myuserid, {
+								type: 'template',
+								altText: '是否開啟警報聲協助尋車?',
+								template: {
+									type: 'confirm',
+									text: '開啟警報聲協助尋車',
+									actions: [{
+										type: 'postback',
+										label: '開啟',
+										data: 'find_alarm_start'
+									}, {
+										type: 'postback',
+										label: '停止',
+										data: 'find_alarm_stop'
+									}]
+								}
+							});
 							break;
 						case 'manual-mode':
 							unlockMode = 'manual';
@@ -207,6 +225,10 @@ bot.on('postback', function(event) {
 		return;
 	}
 	if (event.postback.data == 'alarm_stop') {
+		io.emit('stop:alarm', '');
+	} else if (event.postback.data == 'find_alarm_start') {
+		io.emit('play:alarm', '');
+	} else if (event.postback.data == 'find_alarm_stop') {
 		io.emit('stop:alarm', '');
 	} else if (type == 'confirmRegisterInfo') {
         if (event.postback.data == 'regist_yes') {
