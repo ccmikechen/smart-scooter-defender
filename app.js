@@ -40,8 +40,8 @@ app.get('/sigfox', function(req, res) {
 			if (isNearby) {
 				bot.push(mygroupid, {
 						type: 'sticker',
-						packageId: 3,
-						stickerId: 1
+						packageId: 1,
+						stickerId: 3
 				});
 				bot.push(mygroupid, name + "在騎車時摔倒了!");
 				/*
@@ -58,8 +58,8 @@ app.get('/sigfox', function(req, res) {
 			} else {
 				bot.push(myuserid, {
 						type: 'sticker',
-						packageId: 135,
-						stickerId: 1
+						packageId: 1,
+						stickerId: 135
 				});
 				bot.push(myuserid, "你的車翻倒了!");
 				/*
@@ -79,8 +79,8 @@ app.get('/sigfox', function(req, res) {
 			bot.push(myuserid, [
 					{
 						type: 'sticker',
-						packageId: 612,
-						stickerId: 4
+						packageId: 2,
+						stickerId: 174
 					}, {
 						type: 'text', 
 						text: name + "發生車禍了!"
@@ -99,8 +99,8 @@ app.get('/sigfox', function(req, res) {
 				bot.push(myuserid, [
 					{
 						type: 'sticker',
-						packageId: 113,
-						stickerId: 1
+						packageId: 1,
+						stickerId: 113
 					}, { 
 						type: 'text', 
 						text: "你的車正在移動!趕快去看看!"
