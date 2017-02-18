@@ -50,7 +50,7 @@ app.get('/sigfox', function(req, res) {
 					}]);
 					*/
 			} else {
-				bot.push("你的車翻倒了!");
+				bot.push(myuserid, "你的車翻倒了!");
 				/*
 				bot.push(myuserid, [
 					{
