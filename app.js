@@ -43,12 +43,30 @@ app.get('/sigfox', function(req, res) {
 			}
 			break;
 		case "03":
-			bot.push(mygroupid, name + "疑似發生車禍了!");
+			bot.push(myuserid, [
+					{
+						type: 'text', 
+						text: name + "疑似發生車禍了!"
+					}, {
+						type: 'image',
+						originalContentUrl: 'https://misgo.azurewebsites.net/images/emergency.jpg',
+						previewImageUrl: 'https://misgo.azurewebsites.net/images/emergency.jpg'
+					});
 			break;
 		case "04":
 			if (!isNearby) {
 				io.emit('play:alarm', '');
-				bot.push(myuserid, "你的車正在移動!")
+				
+				bot.push(myuserid, [
+					{
+						type: 'sticker',
+						packageId: 430,
+						stickerId: 1
+					}, { 
+						type: 'text', 
+						text: "你的車正在移動!"
+					}
+				]);
 				bot.push(myuserid, {
 						type: 'template',
 						altText: '停止警報',
