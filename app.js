@@ -204,17 +204,20 @@ bot.on('postback', function(event) {
     }
 });
 
-/*
+
 bot.on('beacon', function (event) {
+	if (event.source.userId != myuserid) {
+		return;
+	}
 	if (event.beacon.type == 'enter') {
 		isNearby = true;
-		bot.push(myuserid, "車輛已解鎖!");
+		bot.push(myuserid, "已解鎖!");
 	} else if (event.beacon.type == 'leave') {
 		isNearby = false;
-		bot.push(myuserid, "車輛已上鎖!");
+		bot.push(myuserid, "已上鎖!");
 	}
 });
-*/
+
 
 bot.on('leave', function(event) {
 	bot.push(myuserid, event.source.groupId);
