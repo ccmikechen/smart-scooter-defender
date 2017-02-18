@@ -38,7 +38,7 @@ app.get('/', function (req, res) {
 
 bot.on('message', function (event) {
 	var userId = event.source.userId;
-    bot.push(userId, temp);
+    bot.push(userId, userId);
 });
 
 const linebotParser = bot.parser();
