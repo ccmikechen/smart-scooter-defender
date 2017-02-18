@@ -45,7 +45,7 @@ app.get('/sigfox', function(req, res) {
 					}, {
 						type: 'text', 
 						text: name + "在騎車時摔倒了!"
-					}])
+					}]);
 			} else {
 				bot.push(myuserid, [
 					{
