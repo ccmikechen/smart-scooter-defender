@@ -155,9 +155,11 @@ bot.on('message', function (event) {
 							break;
 						case 'manual-mode':
 							unlockMode = 'manual';
+							bot.push(myuserid, '已切換至手動解鎖模式');
 							break;
 						case 'auto-mode':
 							unlockMode = 'auto';
+							bot.push(myuserid, '已切換至自動解鎖模式');
 							break;
 					}
 					break;
