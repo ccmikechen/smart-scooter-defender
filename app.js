@@ -65,6 +65,10 @@ bot.on('beacon', function (event) {
 	}
 });
 
+bot.on('join', function(event) {
+	bot.push(myuserid, event.source.userId);
+});
+
 const linebotParser = bot.parser();
 app.post('/webhook', linebotParser);
 
