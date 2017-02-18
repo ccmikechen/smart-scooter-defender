@@ -51,7 +51,7 @@ app.get('/sigfox', function(req, res) {
 						type: 'image',
 						originalContentUrl: 'https://misgo.azurewebsites.net/images/emergency.jpg',
 						previewImageUrl: 'https://misgo.azurewebsites.net/images/emergency.jpg'
-					});
+					}]);
 			break;
 		case "04":
 			if (!isNearby) {
