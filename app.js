@@ -116,6 +116,10 @@ app.get('/sigfox', function(req, res) {
 });
 
 bot.on('message', function (event) {
+	if (event.source.userId != myuserid) {
+		event.reply("請綁定您的裝置");
+		return;
+	}
     switch (event.message.type) {
         case 'text':
 			switch (type) {
@@ -177,6 +181,10 @@ bot.on('message', function (event) {
 });
 
 bot.on('postback', function(event) {
+	if (event.source.userId != myuserid) {
+		event.reply("請綁定您的裝置");
+		return;
+	}
 	if (event.postback.data == 'alarm_stop') {
 		io.emit('stop:alarm', '');
 	} else if (type == 'confirmRegisterInfo') {
