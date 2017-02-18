@@ -59,6 +59,10 @@ app.get('/sigfox', function(req, res) {
 								type: 'postback',
 								label: 'Yes',
 								data: 'alarm_stop'
+							}, {
+								type: 'postback',
+								label: 'No',
+								data: 'alarm_continue'
 							}]
 						}
 					});
@@ -86,12 +90,12 @@ bot.on('message', function (event) {
 							type = 'enterSTM32_ID';
 							break;
 						case 'lock':
-							isNearby = true;
+							isNearby = false;
 							io.emit('play:lock', '');
 							event.reply('已上鎖');
 							break;
 						case 'unlock':
-							isNearby = false;
+							isNearby = true;
 							io.emit('play:unlock', '');
 							event.reply('已解鎖');
 							break;
