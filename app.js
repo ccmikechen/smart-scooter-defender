@@ -135,6 +135,10 @@ bot.on('message', function (event) {
 							type = 'enterSTM32_ID';
 							break;
 						case 'lock':
+							if (unlockMode == 'auto') {
+								event.reply('目前為自動解鎖模式，欲手動解鎖請切換自手動解鎖模式');
+								break;
+							}
 							isNearby = false;
 							io.emit('play:lock', '');
 							event.reply('已上鎖');
