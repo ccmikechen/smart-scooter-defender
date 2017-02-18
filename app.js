@@ -1,7 +1,11 @@
+var db = require('./db.js');
+db.connectionTest();
+
 var converter = require('hex2dec');
 var linebot = require('linebot');
 var express = require('express');
 var app = express();
+
 
 var myuserid = "U362136ce7ef87de62bae7b85de8b5d7f";
 
@@ -15,10 +19,16 @@ var bot = linebot({
 
 app.get('/sigfox', function(req, res) {
 	var data = req.query.data;
-	var pressure_int = converter.hexToDec('0x' + data.substr(8, 8));
-	var pressure_point = converter.hexToDec('0x' + data.substr(16, 8));
-	var pressure = pressure_int + '.' + pressure_point;
-	bot.push(myuserid, "Pressure: " + pressure);
+	var state = "";
+	switch (data) {
+		case "01":
+			state = "正常";
+			break;
+		case "02":
+			state = "倒啦!";
+			break;
+	}
+	bot.push(myuserid, state);
 	res.end();
 });
 
