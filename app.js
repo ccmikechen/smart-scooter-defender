@@ -28,7 +28,7 @@ app.get('/sigfox', function(req, res) {
 			state = "倒啦!";
 			break;
 	}
-	bot.push(myuserid, state + " lan: " + req.query.lan);
+	bot.push(myuserid, state + " lng: " + req.query.lng);
 	res.end();
 });
 
