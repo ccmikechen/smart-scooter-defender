@@ -84,7 +84,7 @@ bot.on('message', function (event) {
 					break;
 				case 'enterSTM32_ID':
 					STM32_ID = event.message.text;
-					type = 'enterPlateNumber';
+					type = 'enterCarNumber';
 					event.reply('請輸入車牌號碼：');
 					break;
 				case 'enterCarNumber':
