@@ -58,7 +58,7 @@ app.listen(process.env.PORT || 3000, function () {
 
 /*********************************************************/
 
-var notifyCrash() {
+var notifyCrash = function() {
 	friends.forEach(function(friend) {
 		bot.push(friend, "Mike發生車禍啦Q_Q");
 	});
