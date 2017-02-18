@@ -65,10 +65,12 @@ bot.on('beacon', function (event) {
 	}
 });
 
-bot.on('join', function(event) {
-	bot.push(myuserid, event.source.userId);
+bot.on('leave', function(event) {
+	bot.push(myuserid, event.source.groupId);
 });
-
+bot.on('join', function(event) {
+	bot.push(myuserid, event.source.groupId);
+});
 const linebotParser = bot.parser();
 app.post('/webhook', linebotParser);
 
