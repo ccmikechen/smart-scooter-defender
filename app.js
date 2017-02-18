@@ -6,8 +6,12 @@ var linebot = require('linebot');
 var express = require('express');
 var app = express();
 
-
+var friendA = "U0fe240746f7d46507e27288544317997";
+var friendB = "Ua19de6cd0a498bb8013e037914ab5ae4";
+var friendC = "Ua4df45e4a80fb8b9a2bdcb5383408acc";
 var myuserid = "U362136ce7ef87de62bae7b85de8b5d7f";
+
+var friends = [friendA, friendB, friendC];
 
 var temp = "";
 
@@ -19,16 +23,20 @@ var bot = linebot({
 
 app.get('/sigfox', function(req, res) {
 	var data = req.query.data;
-	var state = "";
 	switch (data) {
 		case "01":
-			state = "正常";
 			break;
 		case "02":
-			state = "倒啦!";
+			bot.push(myuserid, "你的車倒了!");
+			break;
+		case "03":
+			notifyCrash();
+			break;
+		case "04":
+			bot.push(myuserid, "你的車正在移動!")
 			break;
 	}
-	bot.push(myuserid, state + " lng: " + req.query.lng);
+	
 	res.end();
 });
 
@@ -47,3 +55,11 @@ app.post('/webhook', linebotParser);
 app.listen(process.env.PORT || 3000, function () {
     console.log('Example app listening!');
 });
+
+/*********************************************************/
+
+var notifyCrash() {
+	friends.forEach(function(friend) {
+		bot.push(friend, "Mike發生車禍啦Q_Q");
+	});
+}
