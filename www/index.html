@@ -1,27 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 	<title>機車防盜</title>
 </head>
 
 <body>
-	<div id="demo"></div>
-
+	<audio id="alarm">
+		<source src="sounds/alarm.wav" type="audio/wav">
+	</audio>
+	<audio id="unlock">
+		<source src="sounds/unlock.mp3" type="audio/mp3">
+	</audio>
+	<button onclick="playAlarm()">alarm</button>
+	<button onclick="playUnlock()">unlock</button>
 <script>
-	var x = document.getElementById("demo");
-	function getLocation() {
-		if (navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition(showPosition);
-		} else {
-			x.innerHTML = "Geolocation is not supported by this browser.";
-		}
+	function playAlarm() {
+		document.getElementById('alarm').play();
 	}
-	function showPosition(position) {
-		x.innerHTML = "Latitude: " + position.coords.latitude + 
-		"<br>Longitude: " + position.coords.longitude; 
+	function stopAlarm() {
+		document.getElementById('alarm').stop();
+	}
+	function playUnlock() {
+		document.getElementById('unlock').play();
 	}
 	
-	setInterval(getLocation, 100);
+	var socket = io();
+	
+	socket.on('play:alarm', function() {
+		playAlarm();
+	});
+	socket.on('stop:alarm', function() {
+		stopAlarm();
+	});
+	socket.on('play:lock', function() {
+		playUnlock();
+	});
+	socket.on('play:unlock', function() {
+		playUnlock();
+	});
 </script>
 </body>
 </html>

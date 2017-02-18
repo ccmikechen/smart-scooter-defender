@@ -5,6 +5,8 @@ var converter = require('hex2dec');
 var linebot = require('linebot');
 var express = require('express');
 var app = express();
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
 
 var myuserid = "U362136ce7ef87de62bae7b85de8b5d7f";
 var mygroupid = "C4d91d7abc6676f42ef922d2cf1378f7a";
@@ -43,7 +45,21 @@ app.get('/sigfox', function(req, res) {
 			break;
 		case "04":
 			if (!isNearby) {
+				io.emit('play:alarm', '');
 				bot.push(myuserid, "你的車正在移動!")
+				bot.push(myuserid, {
+						type: 'template',
+						altText: '停止警報',
+						template: {
+							type: 'confirm',
+							text: '停止警報聲?',
+							actions: [{
+								type: 'postback',
+								label: 'Yes',
+								data: 'alarm_stop'
+							}]
+						}
+					});
 			}
 			break;
 	}
@@ -69,15 +85,19 @@ bot.on('message', function (event) {
 							break;
 						case 'lock':
 							isNearby = true;
+							io.emit('play:lock', '');
+							event.reply('已上鎖');
 							break;
 						case 'unlock':
 							isNearby = false;
+							io.emit('play:unlock', '');
+							event.reply('已解鎖');
 							break;
 						case 'find':
 							event.reply({
 								type: 'location',
-								title: '點我查看地圖',
-								address: '尋車結果',
+								title: '尋車結果',
+								address: '點我查看地圖',
 								latitude: lat,
 								longitude: lng
 							});
@@ -115,10 +135,12 @@ bot.on('message', function (event) {
 });
 
 bot.on('postback', function(event) {
-    if (type == 'confirmRegisterInfo') {
+	if (event.postback.data == 'alarm_stop') {
+		io.emit('stop:alarm', '');
+	} else if (type == 'confirmRegisterInfo') {
         if (event.postback.data == 'regist_yes') {
-            db.insertBinding(event.source.userId,STM32_ID,motorcycle);
 			event.reply('裝置已綁定');
+            db.insertBinding(event.source.userId,STM32_ID,motorcycle);
         } else if (event.postback.data == 'regist_no') {
 			event.reply('已取消');
 		}
