@@ -13,7 +13,7 @@ var myuserid = "U362136ce7ef87de62bae7b85de8b5d7f";
 
 var friends = [friendA, friendB, friendC];
 
-var temp = "";
+var isNearby = false;
 
 var bot = linebot({
     channelId: "1483029082",
@@ -27,13 +27,19 @@ app.get('/sigfox', function(req, res) {
 		case "01":
 			break;
 		case "02":
-			bot.push(myuserid, "你的車倒了!");
+			if (isNearby) {
+				notifyDown();
+			} else {
+				bot.push(myuserid, "你的車倒了!");
+			}
 			break;
 		case "03":
 			notifyCrash();
 			break;
 		case "04":
-			bot.push(myuserid, "你的車正在移動!")
+			if (!isNearby) {
+				bot.push(myuserid, "你的車正在移動!")
+			}
 			break;
 	}
 	
@@ -49,6 +55,14 @@ bot.on('message', function (event) {
     bot.push(userId, userId);
 });
 
+bot.on('beacon', function (event) {
+	if (event.beacon.type == 'enter') {
+		isNearby = true;
+	} else if (event.beacon.type == 'leave') {
+		isNearby = false;
+	}
+});
+
 const linebotParser = bot.parser();
 app.post('/webhook', linebotParser);
 
@@ -58,8 +72,14 @@ app.listen(process.env.PORT || 3000, function () {
 
 /*********************************************************/
 
+var notifyDown = function() {
+	friends.forEach(function(friend) {
+		bot.push(friend, "Mike在騎車時摔倒了!")
+	});
+}
+
 var notifyCrash = function() {
 	friends.forEach(function(friend) {
-		bot.push(friend, "Mike發生車禍啦Q_Q");
+		bot.push(friend, "Mike疑似發生車禍了!");
 	});
 }
