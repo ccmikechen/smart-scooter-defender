@@ -25,6 +25,8 @@ var bot = linebot({
     channelAccessToken: "HgmqnvzXuSTtXjB/3yiI0TRFOD2JWImFRFhHavnhGvBLfTeDzBdEREYYWb+oT8zsTfxIBvP4JHHT8kQP853zcJ870pGvKDyKc+zi4cd3ebkitUY8xUa9dkFpIjDjvdNXO5AfquvILjUZ2FLxSluXrwdB04t89/1O/w1cDnyilFU="
 });
 
+io.on('connection', function(client){ console.log('a connection'); });
+
 app.use(express.static('www'));
 
 app.get('/sigfox', function(req, res) {
@@ -171,6 +173,6 @@ bot.on('join', function(event) {
 const linebotParser = bot.parser();
 app.post('/webhook', linebotParser);
 
-app.listen(process.env.PORT || 3000, function () {
+server.listen(process.env.PORT || 3000, function () {
     console.log('Example app listening!');
 });
