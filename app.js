@@ -144,6 +144,10 @@ bot.on('message', function (event) {
 							event.reply('已上鎖');
 							break;
 						case 'unlock':
+							if (unlockMode == 'auto') {
+								event.reply('目前為自動解鎖模式，欲手動解鎖請切換自手動解鎖模式');
+								break;
+							}
 							isNearby = true;
 							io.emit('play:unlock', '');
 							event.reply('已解鎖');
