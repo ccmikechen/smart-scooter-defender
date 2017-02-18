@@ -114,9 +114,12 @@ bot.on('message', function (event) {
 
 bot.on('postback', function(event) {
     if (type == 'confirmRegisterInfo') {
-        if (event.postback.data == "regist_yes") {
+        if (event.postback.data == 'regist_yes') {
             db.insertBinding(event.source.userId,STM32_ID,motorcycle);
-        }
+			event.reply('裝置已綁定');
+        } else if (event.postback.data == 'regist_no') {
+			event.reply('已取消');
+		}
         STM32_ID = "";
         motorcycle = "";
         type = 'init';
