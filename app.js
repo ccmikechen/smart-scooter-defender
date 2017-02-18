@@ -15,7 +15,7 @@ var type = 'init';
 var STM32_ID = "";
 var motorcycle = "";
 
-var lat = 0, lng = 0;
+var lat = 25.040302, lng = 121.5387707;
 
 var isNearby = false;
 
@@ -109,8 +109,8 @@ app.get('/sigfox', function(req, res) {
 			}
 			break;
 	}
-	lat = req.query.lat;
-	lng = req.query.lng;
+	//lat = req.query.lat;
+	//lng = req.query.lng;
 	
 	res.end();
 });
@@ -214,5 +214,5 @@ const linebotParser = bot.parser();
 app.post('/webhook', linebotParser);
 
 server.listen(process.env.PORT || 3000, function () {
-    console.log('Example app listening!');
+    console.log('App server is listening!');
 });
