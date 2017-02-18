@@ -40,20 +40,20 @@ app.get('/sigfox', function(req, res) {
 			break;
 		case "02":
 			if (isNearby) {
-				bot.push(mygroupid, {
-						type: 'sticker',
-						packageId: 1,
-						stickerId: 3
+				bot.push(mygroupid, [{
+					type: 'sticker',
+					packageId: 1,
+					stickerId: 3
 				}, {
 					type: 'text',
 					text: name + "在騎車時摔倒了!"
 				}, {
-						type: 'location',
-						title: '事發地點',
-						address: '點我查看地圖',
-						latitude: lat,
-						longitude: lng
-				});
+					type: 'location',
+					title: '事發地點',
+					address: '點我查看地圖',
+					latitude: lat,
+					longitude: lng
+				}]);
 			} else {
 				bot.push(myuserid, {
 						type: 'sticker',
@@ -64,7 +64,7 @@ app.get('/sigfox', function(req, res) {
 			}
 			break;
 		case "03":
-			bot.push(myuserid, [
+			bot.push(mygroupid, [
 					{
 						type: 'sticker',
 						packageId: 2,
