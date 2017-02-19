@@ -7,8 +7,8 @@ var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
-
-var myuserid = "U362136ce7ef87de62bae7b85de8b5d7f";
+var myuserid = "U0fe240746f7d46507e27288544317997";
+//var myuserid = "U362136ce7ef87de62bae7b85de8b5d7f";
 var mygroupid = "C4d91d7abc6676f42ef922d2cf1378f7a";
 
 var type = 'init';
@@ -33,7 +33,7 @@ app.use(express.static('www'));
 
 app.get('/sigfox', function(req, res) {
 	var data = req.query.data;
-	var name = '陳銘嘉';
+	var name = '尤昭詠';
 	//bot.push(myuserid, data);
 	switch (data) {
 		case "01":
@@ -254,9 +254,11 @@ bot.on('beacon', function (event) {
 	if (event.beacon.type == 'enter') {
 		isNearby = true;
 		bot.push(myuserid, "已解鎖!");
+		io.emit('play:unlock', '');
 	} else if (event.beacon.type == 'leave') {
 		isNearby = false;
 		bot.push(myuserid, "已上鎖!");
+		io.emit('play:lock', '');
 	}
 });
 
